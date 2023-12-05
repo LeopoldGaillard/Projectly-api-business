@@ -18,6 +18,24 @@ function get_user(email) {
     });
 }
 
+function get_all_users() {
+    return new Promise((resolve, reject) => {
+        var values = [];
+        const sql = "SELECT * \
+                    FROM User"
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+}
+
 module.exports = {
-    get_user
+    get_user,
+    get_all_users
 }

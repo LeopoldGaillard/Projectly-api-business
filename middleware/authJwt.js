@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config/auth')
-const userModel = require('../models/user.model')
+const userModel = require('../models/users.model')
 
 /**
  * Middleware function to check if token is correct
