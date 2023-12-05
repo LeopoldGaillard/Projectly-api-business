@@ -28,7 +28,8 @@ app.use(bodyParser.json())
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// require("./routes/<routeFileName>")(app)
+require("./routes/auth.route.js")(app)
+require("./routes/test.route.js")(app)
 
 app.get('/', (req,res) => {
     res.status(200).send({
