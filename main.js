@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 require("./routes/auth.route.js")(app)
 require("./routes/test.route.js")(app)
+require("./routes/users.route.js")(app)
 
 app.get('/', (req,res) => {
     res.status(200).send({
