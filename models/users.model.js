@@ -4,7 +4,7 @@ function get_user(email) {
     return new Promise((resolve, reject) => {
         var values = [email];
         const sql = "SELECT * \
-                    FROM User \
+                    FROM Users \
                     WHERE email=$1"
 
         db.query(sql, values, (err, result) => {
@@ -22,7 +22,7 @@ function get_all_users() {
     return new Promise((resolve, reject) => {
         var values = [];
         const sql = "SELECT * \
-                    FROM User"
+                    FROM Users"
 
         db.query(sql, values, (err, result) => {
             if (err) {

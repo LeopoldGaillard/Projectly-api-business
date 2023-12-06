@@ -9,7 +9,7 @@ const db = new Pool({
     database:PGDATABASE,
     password:PGPASSWORD,
     port:PGPORT,
-    ssl:true
+    ssl:false
 })
 
 async function getPgVersion() {
@@ -17,7 +17,7 @@ async function getPgVersion() {
         if (err) {
             return console.error('Error executing query', err.stack)
         }
-        console.log("Database version: " + result);
+        console.log("Database version: " + result.rows[0].version);
     })
 }
 
