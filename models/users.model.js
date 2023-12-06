@@ -1,4 +1,4 @@
-const db = require("../config/db")
+const { db } = require("../config/db")
 
 function get_user(email) {
     return new Promise((resolve, reject) => {

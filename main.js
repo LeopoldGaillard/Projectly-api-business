@@ -1,4 +1,5 @@
 const express = require('express')
+const { getPgVersion } = require('./config/db');
 const bodyParser = require('body-parser')
 const { rateLimit } = require('express-rate-limit')
 require('dotenv').config();
@@ -45,5 +46,8 @@ app.get('*', (req,res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`)
+    getPgVersion().then((version) => {
+        console.log("Postgres version: " + version);
+        console.log(`Server started on port ${port}`);
+    }).catch((err) => {console.error(err)});
 })

@@ -13,14 +13,15 @@ const db = new Pool({
 })
 
 async function getPgVersion() {
-    db.query('select version()', [], (err, result) => {
-        if (err) {
-            return console.error('Error executing query', err.stack)
-        }
-        console.log("Database version: " + result.rows[0].version);
-    })
+    return new Promise((resolve, reject) => {
+        db.query('select version()', [], (err, result) => {
+            if (err) {
+                reject('Error executing query:\n' + err.stack);
+            } else {
+                resolve(result.rows[0].version);
+            }
+        })
+    });
 }
 
-getPgVersion();
-
-module.exports = db
+module.exports = { db, getPgVersion }
