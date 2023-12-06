@@ -2,6 +2,10 @@
 
 Business back end for Projectly project.
 
+# Launch project
+
+Open a terminal at project root and enter "npm start"
+
 # API methods
 
 ## Authentification
