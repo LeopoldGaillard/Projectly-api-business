@@ -45,9 +45,15 @@ app.get('*', (req,res) => {
     })
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     getPgVersion().then((version) => {
         console.log("Postgres version: " + version);
         console.log(`Server started on port ${port}`);
-    }).catch((err) => {console.error(err)});
+        app.emit('ready');
+    }).catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
 })
+
+module.exports = { app, server };
