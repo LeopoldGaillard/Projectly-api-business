@@ -13,5 +13,5 @@ create table if not exists Users (
     constraint nonempty_firstname check (char_length(coalesce(FirstName, '')) > 0),
     constraint nonempty_lastname check (char_length(coalesce(LastName, '')) > 0),
     constraint tooshort_newpassword check (char_length(coalesce(Password, '')) > 8 OR PasswordSetup),
-    constraint admin_needspassword check (PasswordSetup AND IsAdmin)
+    constraint admin_needspassword check (NOT (PasswordSetup AND IsAdmin))
 );
