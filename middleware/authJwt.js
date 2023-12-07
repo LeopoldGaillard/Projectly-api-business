@@ -25,6 +25,28 @@ verifyToken = (req, res, next) => {
     })
 }
 
+verifyIdentity = (req, res, next) => {
+    if (!req.email) {
+        return res.status(401).send({
+            message: "Unauthorized."
+        });
+    }
+
+    if (!req.body.email) {
+        return res.status(401).send({
+            message: "No email provided."
+        });
+    }
+
+    if (req.email != req.body.email) {
+        return res.status(403).send({
+            message: "Forbidden."
+        });
+    }
+
+    next();
+}
+
 isAdmin = (req, res, next) => {
     if(!req.email) {
         res.status(400).send({
@@ -55,5 +77,6 @@ isAdmin = (req, res, next) => {
 
 module.exports = {
     verifyToken,
+    verifyIdentity,
     isAdmin
 }
