@@ -7,6 +7,13 @@ const { body } = require('express-validator')
 const signin = (req, res) => {
     userModel.get_user(req.body.email).then(data => {
         if (data.rows.length) {
+            if (data.rows[0].passwordsetup) {
+                return res.status(403).send({
+                    accessToken: null,
+                    message: "User password is not set up !"
+                })
+            }
+
             const validPassword = bcrypt.compareSync(
                 req.body.password,
                 data.rows[0].password
