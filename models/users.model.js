@@ -88,6 +88,24 @@ function update_user_password(email, password) {
     });
 }
 
+function reset_user_password(email, password) {
+    return new Promise((resolve, reject) => {
+        var values = [email];
+        const sql = "UPDATE Users \
+                    SET password = NULL, passwordsetup = true \
+                    WHERE email=$1"
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+}
+
 function promote_user_admin(email) {
     return new Promise((resolve, reject) => {
         var values = [email];
@@ -129,6 +147,7 @@ module.exports = {
     get_all_users,
     update_user,
     update_user_password,
+    reset_user_password,
     promote_user_admin,
     delete_user
 }
