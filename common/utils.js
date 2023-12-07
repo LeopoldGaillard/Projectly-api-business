@@ -25,15 +25,13 @@ function reduceJson(json, column) {
  * @returns hashed password if successful, else returns ""
  */
 function hashPassword(password) {
-    const hashedPass = ""
-
-    bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND))
-    .then(hash => {
-        hashedPass = hash
-    })
-    .catch(err => res.status(500).json({message: 'Hash Process Error', error : err}))
-
-    return hashedPass
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND))
+        .then(hash => {
+            resolve(hash);
+        })
+        .catch(err => reject(err));
+    });
 }
 
 module.exports = {
