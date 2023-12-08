@@ -17,7 +17,7 @@ module.exports = function(app) {
 
     router.get("/my-content", [authJwt.verifyToken, authJwt.verifyIdentity], controller.accessMyContent)
 
-    router.get("/admin", [authJwt.isAdmin], controller.accessAdmin)
+    router.get("/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.accessAdmin)
 
     app.use('/test', router);
 }
