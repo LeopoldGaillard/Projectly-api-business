@@ -20,7 +20,11 @@ function create_user(email, firstname, lastname) {
 function get_user(email) {
     return new Promise((resolve, reject) => {
         var values = [email];
-        const sql = "SELECT * \
+        const sql = "SELECT Email, \
+                    FirstName, \
+                    LastName, \
+                    PasswordSetup, \
+                    IsAdmin \
                     FROM Users \
                     WHERE email=$1"
 
@@ -38,7 +42,11 @@ function get_user(email) {
 function get_all_users() {
     return new Promise((resolve, reject) => {
         var values = [];
-        const sql = "SELECT * \
+        const sql = "SELECT Email, \
+                    FirstName, \
+                    LastName, \
+                    PasswordSetup, \
+                    IsAdmin \
                     FROM Users"
 
         db.query(sql, values, (err, result) => {
