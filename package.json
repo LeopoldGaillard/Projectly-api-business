@@ -8,13 +8,6 @@
     "dev": "./sql/docker.sh && nodemon main.js",
     "test": "./sql/docker_test.sh && jest --testTimeout=10000 && sh ./sql/docker_test_clear.sh"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/build/"
-    ]
-  },
   "author": "Louis VDP",
   "license": "ISC",
   "dependencies": {
