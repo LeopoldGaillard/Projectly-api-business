@@ -6,11 +6,19 @@ const userModel = require('../models/users.model')
  * Middleware function to check if token is correct
  */
 verifyToken = (req, res, next) => {
-    let token = req.headers["x-access-token"]
+    let token = req.headers["x-access-token"];
+
     if (!token) {
-        return res.status(400).send({
-            message: "No token provided!"
-        })
+        token = req.headers["authorization"];
+
+        if (!token) {
+            return res.status(400).send({
+                message: "No token provided!"
+            })
+        }
+
+        // Remove "Bearer "
+        token = token.substring(7);
     }
 
     jwt.verify(token, config.secret, (err, decoded) => {

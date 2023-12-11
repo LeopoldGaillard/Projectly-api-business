@@ -1,11 +1,25 @@
+const config = require('../config/auth')
 const model = require('../models/users.model');
+const jwt = require('jsonwebtoken')
 const { body } = require('express-validator');
+const { sendMail } = require('../common/utils');
+require('dotenv').config();
 
 function postUser(req, res) {
     const { email, firstname, lastname } = req.body
 
     const promise = model.create_user(email, firstname, lastname)
     promise.then((values) => {
+        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
+        
+        sendMail({
+            to: `${email}`,
+            subject: "Account Verification Link",
+            text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
+            Please setup your password by clicking this link :
+            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
+        });
+
         res.status(201).send(values)
     }).catch((err) => {
         console.error(err.message)
@@ -43,7 +57,7 @@ function getUser(req, res) {
 
 function putUser(req, res) {
     const { email, firstname, lastname } = req.body
-
+    
     const promise = model.update_user(email, firstname, lastname)
     promise.then((values) => {
         res.status(204).send(values)
@@ -57,7 +71,7 @@ function putUser(req, res) {
 
 function putUserPassword(req, res) {
     const { email, password } = req.body
-
+    
     const promise = model.update_user_password(email, password)
     promise.then((values) => {
         res.status(204).send(values)
@@ -71,7 +85,7 @@ function putUserPassword(req, res) {
 
 function putUserPasswordToNull(req, res) {
     const { email } = req.body
-
+    
     const promise = model.reset_user_password(email)
     promise.then((values) => {
         res.status(204).send(values)
@@ -85,7 +99,7 @@ function putUserPasswordToNull(req, res) {
 
 function putUserRoleToAdmin(req, res) {
     const { email } = req.body
-
+    
     const promise = model.promote_user_admin(email)
     promise.then((values) => {
         res.status(204).send(values)
@@ -99,7 +113,7 @@ function putUserRoleToAdmin(req, res) {
 
 function deleteUser(req, res) {
     const { email } = req.body
-
+    
     const promise = model.delete_user(email)
     promise.then((values) => {
         res.status(204).send(values)

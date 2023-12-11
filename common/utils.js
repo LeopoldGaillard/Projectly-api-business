@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const nodemailer = require('nodemailer')
 require('dotenv').config()
 
 /**
@@ -34,7 +35,32 @@ function hashPassword(password) {
     });
 }
 
+const sendMail = async({to, subject, text}) =>{
+    try {
+        let mailOptions = ({
+            from: "Projectly <no-reply@projectly.com>",
+            replyTo: "no-reply@projectly.com",
+            to,
+            subject,
+            text
+        })
+        
+        const Transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.SENDEREMAIL,
+                pass: process.env.SENDERPASSWORD,
+            },
+        });
+        
+        return await Transporter.sendMail(mailOptions) 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     reduceJson,
-    hashPassword
+    hashPassword,
+    sendMail
 }

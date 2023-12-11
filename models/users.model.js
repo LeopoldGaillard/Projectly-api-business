@@ -39,6 +39,29 @@ function get_user(email) {
     });
 }
 
+function get_user_with_password(email) {
+    return new Promise((resolve, reject) => {
+        var values = [email];
+        const sql = "SELECT Email, \
+                    FirstName, \
+                    LastName, \
+                    Password, \
+                    PasswordSetup, \
+                    IsAdmin \
+                    FROM Users \
+                    WHERE email=$1"
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+}
+
 function get_all_users() {
     return new Promise((resolve, reject) => {
         var values = [];
@@ -152,6 +175,7 @@ function delete_user(email) {
 module.exports = {
     create_user,
     get_user,
+    get_user_with_password,
     get_all_users,
     update_user,
     update_user_password,

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const { body } = require('express-validator')
 
 const signin = (req, res) => {
-    userModel.get_user(req.body.email).then(data => {
+    userModel.get_user_with_password(req.body.email).then(data => {
         if (data.rows.length) {
             if (data.rows[0].passwordsetup) {
                 return res.status(403).send({
