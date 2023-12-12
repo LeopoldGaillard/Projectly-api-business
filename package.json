@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./sql/docker.sh && node main",
     "dev": "./sql/docker.sh && nodemon main.js",
-    "test": "./sql/docker_test.sh && jest --testTimeout=10000 && sh ./sql/docker_test_clear.sh"
+    "test": "./sql/docker_test.sh && jest --config tests/jest.config.js --runInBand --testTimeout=10000 && sh ./sql/docker_test_clear.sh"
   },
   "author": "Louis VDP",
   "license": "ISC",

@@ -22,6 +22,16 @@ beforeAll(async () => {
     });
 })
 
+afterAll(async () => {
+    return new Promise((resolve, reject) => {
+        console.log('Closing server...');
+        server.close(() => {
+            console.log('Server closed.');
+            resolve();
+        });
+    });
+});
+
 describe('GET /users not admin', () => {
     it('GET /users without email should give a 400 status', async () => {
         const res = await requestWithSupertest

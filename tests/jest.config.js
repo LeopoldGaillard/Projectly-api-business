@@ -4,7 +4,6 @@ const config = {
       "/node_modules/",
       "/build/"
     ],
-    setupFilesAfterEnv: ["./tests/jest.setup.js"],
     //verbose: true
 };
 

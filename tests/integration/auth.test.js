@@ -6,6 +6,16 @@ const { TESTADMINPASS } = process.env;
 
 const requestWithSupertest = supertest(server);
 
+afterAll(async () => {
+    return new Promise((resolve, reject) => {
+        console.log('Closing server...');
+        server.close(() => {
+            console.log('Server closed.');
+            resolve();
+        });
+    });
+});
+
 describe('POST /auth/signin password setup', () => {
     it('POST /auth/signin on a user that has to set his password up should give a 403 status', async () => {
         const res = await requestWithSupertest
