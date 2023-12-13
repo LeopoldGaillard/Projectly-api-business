@@ -70,7 +70,8 @@ function putUser(req, res) {
 }
 
 function putUserPassword(req, res) {
-    const { email, password } = req.body
+    const { email } = req
+    const { password } = req.body
     
     const promise = model.update_user_password(email, password)
     promise.then((values) => {
@@ -148,7 +149,6 @@ const validate = (method) => {
         }
         case 'putUserPassword': {
             return [
-                body('email', `Invalid email format.`).escape().exists().isEmail(),
                 body('password', `Invalid password. Try something stronger.`).escape().exists().isStrongPassword()
             ]
         }
