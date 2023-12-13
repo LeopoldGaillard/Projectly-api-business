@@ -23,7 +23,7 @@ function reduceJson(json, column) {
 /**
  * Password hash
  * @param {string} password password to hash
- * @returns hashed password if successful, else returns ""
+ * @returns {Promise<string>} hashed password if successful, else returns ""
  */
 function hashPassword(password) {
     return new Promise((resolve, reject) => {
