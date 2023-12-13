@@ -14,7 +14,7 @@ function postUser(req, res) {
         
         sendMail({
             to: `${email}`,
-            subject: "Account Setup Link",
+            subject: "Password Setup Link",
             text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
             Please setup your password by clicking this link :
             ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
@@ -89,6 +89,16 @@ function putUserPasswordToNull(req, res) {
     
     const promise = model.reset_user_password(email)
     promise.then((values) => {
+        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
+        
+        sendMail({
+            to: `${email}`,
+            subject: "Password Setup Link",
+            text: `Hello, ${firstname + ' ' + lastname} ! An admin has reset your password.
+            Please setup your new password by clicking this link :
+            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
+        });
+
         res.status(204).send(values)
     }).catch((err) => {
         console.error(err.message)
