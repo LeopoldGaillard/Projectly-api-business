@@ -14,9 +14,11 @@ module.exports = function(app) {
 
     router.post("/signin", authController.validate('signin'), validate.validationFeedback, authController.signin);
 
-    router.post("/reset-password", userController.validate('putUserPasswordToNull'), validate.validationFeedback, userController.putUserPasswordToNull);
+    router.post("/forgot-password", authController.validate('forgotPassword'), validate.validationFeedback, authController.forgotPassword);
 
-    router.post("/update-password", [authJwt.verifyToken, authJwt.verifyIdentity], userController.validate('putUserPassword'), validate.validationFeedback, userController.putUserPassword);
+    router.put("/update-password", [authJwt.verifyToken], userController.validate('putUserPassword'), validate.validationFeedback, userController.putUserPassword);
+
+    router.put("/reset-password", [authJwt.verifyToken, authJwt.isAdmin], userController.validate('putUserPasswordToNull'), validate.validationFeedback, userController.putUserPasswordToNull);
 
     app.use('/auth', router);
 }
