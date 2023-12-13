@@ -33,6 +33,34 @@ verifyToken = (req, res, next) => {
     })
 }
 
+verifyTokenMailer = (req, res, next) => {
+    let token = req.headers["x-access-token"];
+
+    if (!token) {
+        token = req.headers["authorization"];
+
+        if (!token) {
+            return res.status(400).send({
+                message: "No token provided!"
+            });
+        }
+
+        // Remove "Bearer "
+        token = token.substring(7);
+    }
+
+    jwt.verify(token, config.secret2, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({
+                message: "Unauthorized!"
+            });
+        }
+
+        req.email = decoded.email;
+        next();
+    })
+}
+
 verifyIdentity = (req, res, next) => {
     if (!req.email) {
         return res.status(401).send({
@@ -85,6 +113,7 @@ isAdmin = (req, res, next) => {
 
 module.exports = {
     verifyToken,
+    verifyTokenMailer,
     verifyIdentity,
     isAdmin
 }

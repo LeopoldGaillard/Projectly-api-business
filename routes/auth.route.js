@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     router.post("/forgot-password", authController.validate('forgotPassword'), validate.validationFeedback, authController.forgotPassword);
 
-    router.put("/update-password", [authJwt.verifyToken], userController.validate('putUserPassword'), validate.validationFeedback, userController.putUserPassword);
+    router.put("/update-password", [authJwt.verifyTokenMailer], userController.validate('putUserPassword'), validate.validationFeedback, userController.putUserPassword);
 
     router.put("/reset-password", [authJwt.verifyToken, authJwt.isAdmin], userController.validate('putUserPasswordToNull'), validate.validationFeedback, userController.putUserPasswordToNull);
 
