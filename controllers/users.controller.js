@@ -14,7 +14,7 @@ function postUser(req, res) {
         
         sendMail({
             to: `${email}`,
-            subject: "Account Verification Link",
+            subject: "Account Setup Link",
             text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
             Please setup your password by clicking this link :
             ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
