@@ -41,6 +41,33 @@ const signin = (req, res) => {
     })
 }
 
+function forgotPassword(req, res) {
+    const { email } = req.body
+
+    const promise = userModel.get_user(email);
+    promise.then(() => {
+        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
+        
+        sendMail({
+            to: `${email}`,
+            subject: "Password Reset Link",
+            text: `Hello, ${firstname + ' ' + lastname} ! It seems you have asked a password change.
+            You can change it by clicking this link :
+            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} \n
+            If you didn't ask for a password change you can ignore this and nothing will happen.`,
+        });
+
+        res.status(201).send({
+            message: `Mail has been sent to change password.`
+        })
+    }).catch((err) => {
+        console.error(err.message)
+        res.status(404).send({
+            message: `This email does not correspond to an account in our services.`
+        })
+    });
+}
+
 const validate = (method) => {
     switch (method) {
         case 'signin': {
@@ -49,10 +76,16 @@ const validate = (method) => {
                 body('password', `Password is not conform.`).escape().exists()
             ]
         }
+        case 'forgotPassword': {
+            return [
+                body('email', `Email is not conform.`).escape().exists().isEmail()
+            ]
+        }
     }
 }
 
 module.exports = {
     signin,
+    forgotPassword,
     validate
 }
