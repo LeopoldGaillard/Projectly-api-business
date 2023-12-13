@@ -1,3 +1,4 @@
+const { hashPassword } = require("../common/utils");
 const { db } = require("../config/db")
 
 function create_user(email, firstname, lastname) {
@@ -103,23 +104,32 @@ function update_user(email, firstname, lastname) {
 
 function update_user_password(email, password) {
     return new Promise((resolve, reject) => {
-        var values = [email, password];
-        const sql = "UPDATE Users \
-                    SET password = $2, passwordsetup = false \
-                    WHERE email=$1"
-
-        db.query(sql, values, (err, result) => {
-            if (err) {
-                reject(err);
+        hashPassword(password).then((hashed) => {
+            if(hashed === "") {
+                reject(new Error("Hashing problem."));
             }
-            else {
-                resolve(result);
-            }
+    
+            var values = [email, hashed];
+    
+            const sql = "UPDATE Users \
+                        SET password = $2, passwordsetup = false \
+                        WHERE email=$1"
+    
+            db.query(sql, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        }).catch((err) => {
+            reject(err);
         });
     });
 }
 
-function reset_user_password(email, password) {
+function reset_user_password(email) {
     return new Promise((resolve, reject) => {
         var values = [email];
         const sql = "UPDATE Users \
