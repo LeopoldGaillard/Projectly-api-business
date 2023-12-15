@@ -17,7 +17,7 @@ function postUser(req, res) {
             subject: "Password Setup Link",
             text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
             Please setup your password by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
+            ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
         });
 
         res.status(201).send(values)
@@ -96,7 +96,7 @@ function putUserPasswordToNull(req, res) {
             subject: "Password Setup Link",
             text: `Hello, ${firstname + ' ' + lastname} ! An admin has reset your password.
             Please setup your new password by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} `,
+            ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
         });
 
         res.status(204).send(values)

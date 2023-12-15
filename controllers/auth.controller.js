@@ -53,7 +53,7 @@ function forgotPassword(req, res) {
             subject: "Password Reset Link",
             text: `Hello, ${firstname + ' ' + lastname} ! It seems you have asked a password change.
             You can change it by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}/password-reset?token=${token} \n
+            ${process.env.PASSWORD_SETUP_URL}?token=${token} \n
             If you didn't ask for a password change you can ignore this and nothing will happen.`,
         });
 
