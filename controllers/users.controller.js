@@ -46,7 +46,7 @@ function getUser(req, res) {
     
     const promise = model.get_user(email);
     promise.then((values) => {
-        res.status(200).send(values.rows)
+        res.status(200).send(values.rows[0]);
     }).catch((err) => {
         console.error(err.message)
         res.status(404).send({
