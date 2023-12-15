@@ -69,9 +69,12 @@ verifyIdentity = (req, res, next) => {
     }
 
     if (!req.body.email) {
-        return res.status(401).send({
+        /* return res.status(401).send({
             message: "No email provided."
-        });
+        }); */
+
+        // Here we also certify that the user is going to access his resources.
+        req.body.email = req.email;
     }
 
     if (req.email != req.body.email) {
