@@ -2,14 +2,11 @@ require('dotenv').config()
 
 const { Pool } = require('pg')
 
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT } = process.env;
 const db = new Pool({
-    user:PGUSER,
-    host: PGHOST,
-    database:PGDATABASE,
-    password:PGPASSWORD,
-    port:PGPORT,
-    ssl:false
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 async function getPgVersion() {
