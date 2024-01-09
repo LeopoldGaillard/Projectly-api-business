@@ -249,7 +249,7 @@ Status: 200
     firstname: string,
     lastname: string,
     passwordsetup: boolean,
-    isadmin: boolean,
+    isadmin: boolean
 }[]
 ```
 
@@ -297,7 +297,7 @@ Status: 200
     firstname: string,
     lastname: string,
     passwordsetup: boolean,
-    isadmin: boolean,
+    isadmin: boolean
 }
 ```
 
@@ -490,7 +490,7 @@ Here is the response it gives:
     errors: {
         type: string, // Error type
         msg: string, // Error message
-        value: string // Value that recieved the 
+        value: string, // Value that recieved the 
         location: string,
         path: string,
     }
