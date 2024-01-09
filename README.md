@@ -281,6 +281,8 @@ For 404 error the response should contain:
 
 **Params:**
 
+(If no email is provided, email decoded from the token is used)
+
 ```js
 {
     email: string // Has to fit following format: [name]@[domain].[extension]
@@ -328,6 +330,8 @@ For 404 error the response should contain:
 **Description:** Modifies infos of the user corresponding to the given token and email. (They should match)
 
 **Params:**
+
+(If no email is provided, email decoded from the token is used)
 
 ```js
 {
@@ -492,7 +496,7 @@ Here is the response it gives:
         msg: string, // Error message
         value: string, // Value that recieved the 
         location: string,
-        path: string,
+        path: string
     }
 }
 ```
