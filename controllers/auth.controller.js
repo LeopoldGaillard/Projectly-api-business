@@ -3,6 +3,7 @@ const userModel = require('../models/users.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { body } = require('express-validator')
+const { sendMail } = require('../common/utils');
 
 const signin = (req, res) => {
     userModel.get_user_with_password(req.body.email).then(data => {
@@ -48,17 +49,19 @@ function forgotPassword(req, res) {
     promise.then(() => {
         const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
         
-        sendMail({
-            to: `${email}`,
-            subject: "Password Reset Link",
-            text: `Hello, ${firstname + ' ' + lastname} ! It seems you have asked a password change.
-            You can change it by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}?token=${token} \n
-            If you didn't ask for a password change you can ignore this and nothing will happen.`,
-        });
+        userModel.get_user(email).then((value) => {
+            sendMail({
+                to: `${email}`,
+                subject: "Password Setup Link",
+                text: `Hello, ${value.rows[0].firstname + ' ' + value.rows[0].lastname} ! It seems you have asked a password change.
+                You can change it by clicking this link :
+                ${process.env.PASSWORD_SETUP_URL}?token=${token} \n
+                If you didn't ask for a password change you can ignore this and nothing will happen.`,
+            });
 
-        res.status(201).send({
-            message: `Mail has been sent to change password.`
+            res.status(201).send({
+                message: `Mail has been sent to change password.`
+            })
         })
     }).catch((err) => {
         console.error(err.message)
