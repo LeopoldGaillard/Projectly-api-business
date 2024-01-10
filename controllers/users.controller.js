@@ -90,16 +90,18 @@ function putUserPasswordToNull(req, res) {
     const promise = model.reset_user_password(email)
     promise.then((values) => {
         const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
-        
-        sendMail({
-            to: `${email}`,
-            subject: "Password Setup Link",
-            text: `Hello, ${firstname + ' ' + lastname} ! An admin has reset your password.
-            Please setup your new password by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
-        });
 
-        res.status(204).send(values)
+        model.get_user(email).then((value) => {
+            sendMail({
+                to: `${email}`,
+                subject: "Password Setup Link",
+                text: `Hello, ${value.rows[0].firstname + ' ' + value.rows[0].lastname} ! An admin has reset your password.
+                Please setup your new password by clicking this link :
+                ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
+            });
+
+            res.status(204).send(values)
+        })
     }).catch((err) => {
         console.error(err.message)
         res.status(409).send({
