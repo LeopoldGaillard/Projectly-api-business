@@ -183,6 +183,102 @@ For 409 error the response should contain:
 }
 ```
 
+### Test routes
+
+#### Public
+
+**Method:** GET
+
+**Route:** /auth/test/public
+
+**Auth:** NONE
+
+**Description:** Test for public content
+
+**Params:** NONE
+
+**Response:**
+
+Status: 204
+
+```js
+"Public content."
+```
+
+**Errors:** NONE
+
+#### Authenticated
+
+**Method:** GET
+
+**Route:** /auth/test/authenticated
+
+**Auth:** User
+
+**Description:** Test for authenticated user content
+
+**Params:** NONE
+
+**Response:**
+
+Status: 204
+
+```js
+"Authenticated content."
+```
+
+**Errors:**
+
+see [Auth responses](#auth-middleware-responses)
+
+#### Personnal data
+
+**Method:** GET
+
+**Route:** /auth/test/my-content
+
+**Auth:** User
+
+**Description:** Test for authenticated user self content
+
+**Params:** NONE
+
+**Response:**
+
+Status: 204
+
+```js
+"Personnal content."
+```
+
+**Errors:**
+
+see [Auth responses](#auth-middleware-responses)
+
+#### Personnal data
+
+**Method:** GET
+
+**Route:** /auth/test/admin
+
+**Auth:** Admin
+
+**Description:** Test for admin content
+
+**Params:** NONE
+
+**Response:**
+
+Status: 204
+
+```js
+"Admin content."
+```
+
+**Errors:**
+
+see [Auth responses](#auth-middleware-responses)
+
 ---
 
 ## Users

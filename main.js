@@ -30,7 +30,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 require("./routes/auth.route.js")(app)
-require("./routes/test.route.js")(app)
+require("./routes/auth.test.route.js")(app)
 require("./routes/users.route.js")(app)
 
 app.get('/', (req,res) => {
