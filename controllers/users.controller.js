@@ -8,25 +8,40 @@ require('dotenv').config();
 function postUser(req, res) {
     const { email, firstname, lastname } = req.body
 
-    const promise = model.create_user(email, firstname, lastname)
-    promise.then((values) => {
-        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
-        
-        sendMail({
-            to: `${email}`,
-            subject: "Password Setup Link",
-            text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
-            Please setup your password by clicking this link :
-            ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
-        });
-
-        res.status(201).send(values)
+    const userPromise = model.get_user(email);
+    userPromise.then((values) => {
+        // If we find something, we have already created this user.
+        const foundUser = values.rows[0];
+        if (foundUser) {
+            res.status(409).send({
+                message: `Email already in use.`
+            })
+        } else {
+            // This means we didn't find a user so we can create user (go to catch)
+            throw new Error("User not found");
+        }
     }).catch((err) => {
-        console.error(err.message)
-        res.status(409).send({
-            message: `Cannot create resource.`
+        // If we didn't find anything, we can create the user.
+        const promise = model.create_user(email, firstname, lastname)
+        promise.then((values) => {
+            const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
+            
+            sendMail({
+                to: `${email}`,
+                subject: "Password Setup Link",
+                text: `Hello, ${firstname + ' ' + lastname} ! You have been registered in Projectly by an admin.
+                Please setup your password by clicking this link :
+                ${process.env.PASSWORD_SETUP_URL}?token=${token} `,
+            });
+
+            res.status(201).send(values)
+        }).catch((err) => {
+            console.error(err.message)
+            res.status(409).send({
+                message: `Cannot create resource.`
+            })
         })
-    })
+    });
 }
 
 function getAllUsers(req, res) {
