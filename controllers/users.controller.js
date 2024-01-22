@@ -128,15 +128,35 @@ function putUserPasswordToNull(req, res) {
 function putUserRoleToAdmin(req, res) {
     const { email } = req.body
     
-    const promise = model.promote_user_admin(email)
-    promise.then((values) => {
-        res.status(204).send(values)
+    const promiseUser = model.get_user(email);
+    promiseUser.then((values) => {
+        const foundUser = values.rows[0];
+        if (foundUser) {
+            if (!foundUser.passwordsetup) {
+                const promise = model.promote_user_admin(email)
+                promise.then((values) => {
+                    res.status(204).send(values)
+                }).catch((err) => {
+                    console.error(err.message)
+                    res.status(409).send({
+                        message: `Cannot update resource.`
+                    })
+                })
+            } else {
+                // If the password isn't set up we can't promote the user
+                res.status(409).send({
+                    message: `Cannot promote a user that has not set their password up.`
+                })
+            }
+        } else {
+            throw new Error('Cannot find user.');
+        }
     }).catch((err) => {
         console.error(err.message)
-        res.status(409).send({
-            message: `Cannot update resource.`
+        res.status(404).send({
+            message: `Cannot find user to promote.`
         })
-    })
+    });
 }
 
 function deleteUser(req, res) {
