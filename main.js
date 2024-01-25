@@ -35,6 +35,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./routes/auth.route.js")(app);
 require("./routes/auth.test.route.js")(app);
 require("./routes/users.route.js")(app);
+require("./routes/files.route.js")(app);
+require("./routes/fileExtensions.route.js")(app);
+require("./routes/dataTypes.route.js")(app);
 
 // Root message
 app.get('/', (req,res) => {
