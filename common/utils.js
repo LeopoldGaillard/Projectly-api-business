@@ -3,24 +3,6 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 /**
- * Function that reduces a json with one of its columns
- * @param {JSON} json json we want to reduce
- * @param {number} column key column to reduce
- * @returns reduced json
- */
-function reduceJson(json, column) {
-    const jsonReduced = json.reduce((acc, content) => {
-        const line = content[column];
-        if (!acc[line]) {
-            acc[line] = [];
-        }
-        acc[line].push(content);
-        return acc;
-    }, {});
-    return jsonReduced;
-}
-
-/**
  * Password hash
  * @param {string} password password to hash
  * @returns {Promise<string>} hashed password if successful, else returns ""
@@ -66,7 +48,6 @@ const sendMail = async({to, subject, text}) =>{
 }
 
 module.exports = {
-    reduceJson,
     hashPassword,
     sendMail
 }
