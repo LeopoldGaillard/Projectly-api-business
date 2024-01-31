@@ -1,7 +1,8 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const { Pool } = require('pg')
+const { Pool } = require('pg');
 
+// Pool configuration for database requests
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT } = process.env;
 const db = new Pool({
     user:PGUSER,
@@ -10,8 +11,11 @@ const db = new Pool({
     password:PGPASSWORD,
     port:PGPORT,
     ssl:false
-})
+});
 
+/**
+ * @returns {Promise<string>} version of the postgre database
+ */
 async function getPgVersion() {
     return new Promise((resolve, reject) => {
         db.query('select version()', [], (err, result) => {
@@ -20,8 +24,8 @@ async function getPgVersion() {
             } else {
                 resolve(result.rows[0].version);
             }
-        })
+        });
     });
 }
 
-module.exports = { db, getPgVersion }
+module.exports = { db, getPgVersion };

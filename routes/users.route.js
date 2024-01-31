@@ -1,5 +1,5 @@
-const { authJwt, validate } = require('../middleware')
-const controller = require('../controllers/users.controller')
+const { authJwt, validate } = require('../middleware');
+const controller = require('../controllers/users.controller');
 
 module.exports = function(app) {
     const router = require('express').Router();
@@ -18,4 +18,4 @@ module.exports = function(app) {
     router.delete('/', [authJwt.verifyToken, authJwt.isAdmin], controller.validate('deleteUser'), validate.validationFeedback, controller.deleteUser);
     
     app.use('/users', router);
-}
+};
