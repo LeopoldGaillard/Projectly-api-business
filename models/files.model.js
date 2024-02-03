@@ -37,6 +37,7 @@ function get_file(id) {
 
 function get_all_files() {
     return new Promise((resolve, reject) => {
+        var values = [];
         const sql = "SELECT * \
                     FROM Files"
 

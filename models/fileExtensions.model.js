@@ -20,6 +20,7 @@ function get_file_extension(id) {
 
 function get_all_file_extensions() {
     return new Promise((resolve, reject) => {
+        var values = [];
         const sql = "SELECT * \
                     FROM FileExtensions"
 

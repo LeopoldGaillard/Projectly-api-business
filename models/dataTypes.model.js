@@ -20,6 +20,7 @@ function get_data_type(id) {
 
 function get_all_data_types() {
     return new Promise((resolve, reject) => {
+        var values = [];
         const sql = "SELECT * \
                     FROM DataTypes"
 
