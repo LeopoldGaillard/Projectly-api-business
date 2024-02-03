@@ -1,6 +1,11 @@
 const model = require('../models/dataTypes.model');
 const { param } = require('express-validator');
 
+/**
+ * HTTP request: get all data types registered in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function getAllDataTypes(req, res) {
     const promise = model.get_all_data_types();
     promise.then((values) => {
@@ -13,6 +18,11 @@ function getAllDataTypes(req, res) {
     });
 }
 
+/**
+ * HTTP request: get data type corresponding to the given id if found
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function getDataType(req, res) {
     const id = req.params.id;
     
@@ -27,6 +37,11 @@ function getDataType(req, res) {
     });
 }
 
+/**
+ * Checks if the given request correspond to the expected parameters needed for the given function
+ * @param {string} method name of the called function
+ * @returns validation chain for the current request
+ */
 const validate = (method) => {
     switch (method) {
         case 'getDataType': {

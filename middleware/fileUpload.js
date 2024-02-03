@@ -35,12 +35,7 @@ const uploadFileToStorage = async (req, res, next) => {
         const downloadURL = await getDownloadURL(snapshot.ref);
 
         console.log('File successfully uploaded.');
-        /* return res.send({
-            message: 'file uploaded to firebase storage',
-            name: req.file.originalname,
-            type: req.file.mimetype,
-            downloadURL: downloadURL
-        }); */
+        // TODO: modify with given id
         /* let extArray = file.mimetype.split("/");
         let extension = extArray[extArray.length - 1]; */
         req.title = req.file.originalname;

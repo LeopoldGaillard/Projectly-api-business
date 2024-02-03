@@ -1,6 +1,11 @@
 const model = require('../models/files.model');
 const { param, body } = require('express-validator');
 
+/**
+ * HTTP request: post a new file in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function postFile(req, res) {
     const { title, fileurl, extensionid } = req;
     const { description, typeid, creator, externalid } = req.body
@@ -16,6 +21,11 @@ function postFile(req, res) {
     })
 }
 
+/**
+ * HTTP request: get all registered files in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function getAllFiles(req, res) {
     const promise = model.get_all_files();
     promise.then((values) => {
@@ -28,6 +38,11 @@ function getAllFiles(req, res) {
     });
 }
 
+/**
+ * HTTP request: get specified file corresponding to the given id if found in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function getFile(req, res) {
     const id = req.params.id;
     
@@ -42,11 +57,16 @@ function getFile(req, res) {
     });
 }
 
+/**
+ * HTTP request: put infos of specified file if found in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function putFileInfos(req, res) {
     const id = req.params.id;
-    const { title, description, fileurl, extensionid, typeid, creator, externalid } = req.body
+    const { description, typeid } = req.body
 
-    const promise = model.update_file(id, title, description, fileurl, extensionid, typeid, creator, externalid);
+    const promise = model.update_file(id, description, typeid);
     promise.then((values) => {
         res.status(204).send(values)
     }).catch((err) => {
@@ -57,7 +77,13 @@ function putFileInfos(req, res) {
     })
 }
 
+/**
+ * HTTP request: delete specified file if found in the database
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function deleteFile(req, res) {
+    // TODO: delete reference in firebase
     const id = req.params.id;
     
     const promise = model.delete_file(id)
@@ -71,6 +97,11 @@ function deleteFile(req, res) {
     })
 }
 
+/**
+ * Checks if the given request correspond to the expected parameters needed for the given function
+ * @param {string} method name of the called function
+ * @returns validation chain for the current request
+ */
 const validate = (method) => {
     switch (method) {
         case 'postFile': {

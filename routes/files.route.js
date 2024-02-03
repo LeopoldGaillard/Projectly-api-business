@@ -4,7 +4,6 @@ const { upload, uploadFileToStorage } = require('../middleware/fileUpload');
 
 module.exports = function(app) {
     const router = require('express').Router();
-    // TODO : modify route to handle upload
     router.post('/', [authJwt.verifyToken], upload.single('file'), controller.validate('postFile'), validate.validationFeedback, uploadFileToStorage, controller.postFile);
 
     router.get('/', [authJwt.verifyToken], controller.getAllFiles);

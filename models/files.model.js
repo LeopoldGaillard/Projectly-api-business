@@ -1,5 +1,16 @@
 const { db } = require("../config/db");
 
+/**
+ * SQL query: creates a file reference in the database with given metadata
+ * @param {string} title
+ * @param {string} description
+ * @param {string} url
+ * @param {number} extensionId
+ * @param {number} typeId
+ * @param {string} creatorName
+ * @param {number} externalId
+ * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
+ */
 function create_file(title, description, url, extensionId, typeId, creatorName, externalId) {
     return new Promise((resolve, reject) => {
         var values = [title, description, url, extensionId, typeId, creatorName, externalId];
@@ -17,6 +28,11 @@ function create_file(title, description, url, extensionId, typeId, creatorName, 
     });
 }
 
+/**
+ * SQL query: get specific file in the database
+ * @param {number} id
+ * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
+ */
 function get_file(id) {
     return new Promise((resolve, reject) => {
         var values = [id];
@@ -35,6 +51,10 @@ function get_file(id) {
     });
 }
 
+/**
+ * SQL query: get all found files in the database
+ * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
+ */
 function get_all_files() {
     return new Promise((resolve, reject) => {
         var values = [];
@@ -52,11 +72,18 @@ function get_all_files() {
     });
 }
 
-function update_file(id, title, description, url, extensionId, typeId, creatorName, externalId) {
+/**
+ * SQL query: update file metadata in the database
+ * @param {number} id
+ * @param {string} description
+ * @param {number} typeId
+ * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
+ */
+function update_file(id, description, typeId) {
     return new Promise((resolve, reject) => {
-        var values = [id, title, description, url, extensionId, typeId, creatorName, externalId];
+        var values = [id, description, typeId];
         const sql = "UPDATE Files \
-                    SET title=$2, file_desc=$3, file_url=$4, file_ext_id=$5, data_type_id=$6, creator_name=$7, external_id=$8 \
+                    SET file_desc=$2, data_type_id=$3 \
                     WHERE file_id=$1"
 
         db.query(sql, values, (err, result) => {
@@ -70,6 +97,11 @@ function update_file(id, title, description, url, extensionId, typeId, creatorNa
     });
 }
 
+/**
+ * SQL query: delete file reference in the database
+ * @param {number} id
+ * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
+ */
 function delete_file(id) {
     return new Promise((resolve, reject) => {
         var values = [id];
