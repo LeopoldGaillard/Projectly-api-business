@@ -2,9 +2,9 @@ const model = require('../models/files.model');
 const { param, body } = require('express-validator');
 
 function postFile(req, res) {
-    const { title, description, filepath, extensionid, typeid, creator, externalid } = req.body
+    const { title, description, fileurl, extensionid, typeid, creator, externalid } = req.body
 
-    const promise = model.create_file(title, description, filepath, extensionid, typeid, creator, externalid);
+    const promise = model.create_file(title, description, fileurl, extensionid, typeid, creator, externalid);
     promise.then((values) => {
         res.status(201).send(values)
     }).catch((err) => {
@@ -43,9 +43,9 @@ function getFile(req, res) {
 
 function putFileInfos(req, res) {
     const id = req.params.id;
-    const { title, description, filepath, extensionid, typeid, creator, externalid } = req.body
+    const { title, description, fileurl, extensionid, typeid, creator, externalid } = req.body
 
-    const promise = model.update_file(id, title, description, filepath, extensionid, typeid, creator, externalid);
+    const promise = model.update_file(id, title, description, fileurl, extensionid, typeid, creator, externalid);
     promise.then((values) => {
         res.status(204).send(values)
     }).catch((err) => {

@@ -1,10 +1,10 @@
 const { db } = require("../config/db");
 
-function create_file(title, description, path, extensionId, typeId, creatorName, externalId) {
+function create_file(title, description, url, extensionId, typeId, creatorName, externalId) {
     return new Promise((resolve, reject) => {
-        var values = [title, description, path, extensionId, typeId, creatorName, externalId];
+        var values = [title, description, url, extensionId, typeId, creatorName, externalId];
         const sql = "INSERT INTO Files \
-                    (title, file_desc, file_path, file_ext_id, data_type_id, creator_name, external_id) \
+                    (title, file_desc, file_url, file_ext_id, data_type_id, creator_name, external_id) \
                     VALUES ($1, $2, $3, $4, $5, $6, $7)"
         db.query(sql, values, (err, result) => {
             if (err) {
@@ -51,11 +51,11 @@ function get_all_files() {
     });
 }
 
-function update_file(id, title, description, path, extensionId, typeId, creatorName, externalId) {
+function update_file(id, title, description, url, extensionId, typeId, creatorName, externalId) {
     return new Promise((resolve, reject) => {
-        var values = [id, title, description, path, extensionId, typeId, creatorName, externalId];
+        var values = [id, title, description, url, extensionId, typeId, creatorName, externalId];
         const sql = "UPDATE Files \
-                    SET title=$2, file_desc=$3, file_path=$4, file_ext_id=$5, data_type_id=$6, creator_name=$7, external_id=$8 \
+                    SET title=$2, file_desc=$3, file_url=$4, file_ext_id=$5, data_type_id=$6, creator_name=$7, external_id=$8 \
                     WHERE file_id=$1"
 
         db.query(sql, values, (err, result) => {

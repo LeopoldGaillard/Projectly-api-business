@@ -34,7 +34,7 @@ create table if not exists Files (
     file_id serial unique NOT NULL,
     title varchar(100) NOT NULL,
     file_desc varchar(300) NOT NULL,
-    file_path varchar(100) NOT NULL,
+    file_url varchar(100) NOT NULL,
     file_ext_id integer NOT NULL,
     data_type_id integer NOT NULL,
     creator_name varchar(100) NOT NULL,
