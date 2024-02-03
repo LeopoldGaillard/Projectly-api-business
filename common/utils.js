@@ -18,6 +18,17 @@ function hashPassword(password) {
 }
 
 /**
+ * @returns {string} current date and time in the format "YYYY-MM-DD HH:MM:SS"
+ */
+const giveCurrentDateTime = () => {
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date + ' ' + time;
+    return dateTime;
+}
+
+/**
  * Function to send an email
  * @param {{string}} to Target of the email
  * @param {{string}} subject Subject of the email
@@ -49,5 +60,6 @@ const sendMail = async({to, subject, text}) =>{
 
 module.exports = {
     hashPassword,
+    giveCurrentDateTime,
     sendMail
 }

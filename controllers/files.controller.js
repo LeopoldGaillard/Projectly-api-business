@@ -2,7 +2,8 @@ const model = require('../models/files.model');
 const { param, body } = require('express-validator');
 
 function postFile(req, res) {
-    const { title, description, fileurl, extensionid, typeid, creator, externalid } = req.body
+    const { title, fileurl, extensionid } = req;
+    const { description, typeid, creator, externalid } = req.body
 
     const promise = model.create_file(title, description, fileurl, extensionid, typeid, creator, externalid);
     promise.then((values) => {
