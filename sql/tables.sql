@@ -32,20 +32,21 @@ create table if not exists DataTypes (
 
 create table if not exists Files (
     file_id serial unique NOT NULL,
-    title varchar(100) NOT NULL,
+    title varchar(300) NOT NULL,
     file_desc varchar(300) NOT NULL,
-    file_url varchar(100) NOT NULL,
+    file_url varchar(300) NOT NULL,
     file_ext_id integer NOT NULL,
     data_type_id integer NOT NULL,
-    creator_name varchar(100) NOT NULL,
+    creator_name varchar(320) NOT NULL,
     external_id integer unique NOT NULL,
 
     primary key (file_id),
 
     constraint fk_file1 foreign key (file_ext_id) references FileExtensions(extension_id),
     constraint fk_file2 foreign key (data_type_id) references DataTypes(type_id),
+    constraint fk_file3 foreign key (creator_name) references Users(Email),
 
     constraint nonempty_title check (char_length(coalesce(title, '')) > 0),
     constraint nonempty_file_desc check (char_length(coalesce(file_desc, '')) > 0),
-    constraint nonempty_creator_name check (char_length(coalesce(creator_name, '')) > 0)
+    constraint nonempty_file_url check (char_length(coalesce(file_url, '')) > 0)
 );
