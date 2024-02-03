@@ -74,10 +74,7 @@ const validate = (method) => {
     switch (method) {
         case 'postFile': {
             return [
-                body('title', `Missing title.`).escape().exists(),
                 body('description', `Missing description.`).escape().exists(),
-                body('filepath', `Missing file path.`).escape().exists(),
-                body('extensionid', `Invalid extension id.`).escape().exists().isNumeric(),
                 body('typeid', `Invalid type id.`).escape().exists().isNumeric(),
                 body('creator', `Missing creator.`).escape().exists(),
                 body('externalid', `Invalid external id.`).escape().exists().isNumeric()
@@ -91,12 +88,8 @@ const validate = (method) => {
         case 'putFileInfos': {
             return [
                 param('id', `Invalid id.`).escape().exists().isNumeric(),
-                body('title', `Missing title.`).escape().exists(),
                 body('description', `Missing description.`).escape().exists(),
-                body('extensionid', `Invalid extension id.`).escape().exists().isNumeric(),
                 body('typeid', `Invalid type id.`).escape().exists().isNumeric(),
-                body('creator', `Missing creator.`).escape().exists(),
-                body('externalid', `Invalid external id.`).escape().exists().isNumeric()
             ]
         }
         case 'deleteFile': {
