@@ -3,6 +3,7 @@ const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("fireb
 const multer = require("multer");
 const { firebaseConfig } = require("../config/firebase");
 const { giveCurrentDateTime } = require('../common/utils');
+const fileExtModel = require('../models/fileExtensions.model');
 
 initializeApp(firebaseConfig);
 
@@ -19,6 +20,13 @@ const upload = multer({ storage: multer.memoryStorage() });
  */
 const uploadFileToStorage = async (req, res, next) => {
     try {
+        // We first verify file extension
+        const extArray = req.file.mimetype.split("/");
+        const extension = extArray[extArray.length - 1];
+        
+        const sqlRes = await fileExtModel.get_file_extension_with_name(extension);
+        const fileExtID = sqlRes.rows[0].extension_id;
+
         const dateTime = giveCurrentDateTime();
 
         const storageRef = ref(storage, `files/${req.file.originalname + "       " + dateTime}`);
@@ -35,12 +43,9 @@ const uploadFileToStorage = async (req, res, next) => {
         const downloadURL = await getDownloadURL(snapshot.ref);
 
         console.log('File successfully uploaded.');
-        // TODO: modify with given id
-        /* let extArray = file.mimetype.split("/");
-        let extension = extArray[extArray.length - 1]; */
         req.title = req.file.originalname;
         req.fileurl = downloadURL;
-        req.extensionid = 0
+        req.extensionid = fileExtID;
         next();
     } catch (error) {
         console.error(error.message);
