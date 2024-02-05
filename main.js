@@ -35,8 +35,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./routes/auth.route.js")(app);
 require("./routes/auth.test.route.js")(app);
 require("./routes/users.route.js")(app);
+require("./routes/fileExtensions.route.js")(app); // Extensions before to prevent conflicts with /files/:id and /files/extensions
 require("./routes/files.route.js")(app);
-require("./routes/fileExtensions.route.js")(app);
 require("./routes/dataTypes.route.js")(app);
 
 // Root message
