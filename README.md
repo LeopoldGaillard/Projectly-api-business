@@ -573,6 +573,322 @@ For 409 error the response should contain:
 
 ---
 
+## Files
+
+### Create file
+
+**Method:** POST
+
+**Route:** /files
+
+**Auth:** User
+
+**Description:** Creates a new file in the database.
+
+**Params:**
+
+```js
+{
+    file: File, // Has to be a file with accepted file extension (see File Extensions)
+    description: string, // Max 300 characters
+    typeid: number, // Has to be found in the database
+    creator: string, // Has to fit following format: [name]@[domain].[extension] and has to be found in the database
+    externalid: string
+}
+```
+
+**Response:**
+
+Status: 201
+
+**Errors:**
+
+Status code you can get:
+- 400 if the file upload cannot be done for any reason.
+- 409 if the create cannot be done for any reason.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 400 and 409 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Get file
+
+**Method:** GET
+
+**Route:** /files/:id
+
+**Auth:** User
+
+**Description:** Get a specific file
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if the file cannot be found.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Get all files
+
+**Method:** GET
+
+**Route:** /files
+
+**Auth:** User
+
+**Description:** Get all files found in the database
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if an error occured during the search.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Modify file meta data
+
+**Method:** PUT
+
+**Route:** /files/:id
+
+**Auth:** User
+
+**Description:** Modify meta data of file corresponding to the id.
+
+**Params:**
+
+```js
+{
+    description: string, // Max 300 characters
+    typeid: number // Has to be found in the database
+}
+```
+
+**Response:**
+
+Status: 204
+
+**Errors:**
+
+Status code you can get:
+- 409 if the info update cannot be done for any reason.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 409 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Delete file
+
+**Method:** DELETE
+
+**Route:** /files/:id
+
+**Auth:** User
+
+**Description:** Delete file corresponding to the id.
+
+**Params:** NONE
+
+**Response:**
+
+Status: 204
+
+**Errors:**
+
+Status code you can get:
+- 409 if the file delete cannot be done for any reason.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 409 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+## File Extensions
+
+Accepted files are filtered with file extensions present in the database.
+
+### Get file extension
+
+**Method:** GET
+
+**Route:** /files/extensions/:id
+
+**Auth:** User
+
+**Description:** Get a specific file extension
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if the file extension cannot be found.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Get all file extensions
+
+**Method:** GET
+
+**Route:** /files/extensions
+
+**Auth:** User
+
+**Description:** Get all file extensions found in the database
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if an error occured during the search.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+## Data Types
+
+Data types correspond to categories of file to classify them more easily.
+
+### Get data type
+
+**Method:** GET
+
+**Route:** /datatypes/:id
+
+**Auth:** User
+
+**Description:** Get a specific data type
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if the data type cannot be found.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
+### Get all data types
+
+**Method:** GET
+
+**Route:** /datatypes
+
+**Auth:** User
+
+**Description:** Get all data types found in the database
+
+**Params:** NONE
+
+**Response:**
+
+Status: 200
+
+**Errors:**
+
+Status code you can get:
+- 404 if an error occured during the search.
+- (see [Generic errors](#generic-errors) if you don't see the error code you got)
+
+For 404 error the response should contain:
+
+```js
+{
+    message: string // Explicit error message
+}
+```
+
+---
+
 ## Generic Errors
 
 Those are errors that occurs in multiple different routes.
