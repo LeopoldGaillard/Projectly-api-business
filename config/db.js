@@ -1,14 +1,24 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const { Pool } = require('pg')
+const { Pool } = require('pg');
 
+// Pool configuration for database requests
+const { DATABASE_URL, PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT } = process.env;
 const db = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: DATABASE_URL,
+    user:PGUSER,
+    host: PGHOST,
+    database:PGDATABASE,
+    password:PGPASSWORD,
+    port:PGPORT,
     ssl: {
         rejectUnauthorized: false
     }
-})
+});
 
+/**
+ * @returns {Promise<string>} version of the postgre database
+ */
 async function getPgVersion() {
     return new Promise((resolve, reject) => {
         db.query('select version()', [], (err, result) => {
@@ -17,8 +27,8 @@ async function getPgVersion() {
             } else {
                 resolve(result.rows[0].version);
             }
-        })
+        });
     });
 }
 
-module.exports = { db, getPgVersion }
+module.exports = { db, getPgVersion };

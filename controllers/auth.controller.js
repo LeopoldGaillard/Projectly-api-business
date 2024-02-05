@@ -5,6 +5,11 @@ const bcrypt = require('bcryptjs')
 const { body } = require('express-validator')
 const { sendMail } = require('../common/utils');
 
+/**
+ * HTTP request: sign in the application
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 const signin = (req, res) => {
     userModel.get_user_with_password(req.body.email).then(data => {
         if (data.rows.length) {
@@ -12,42 +17,47 @@ const signin = (req, res) => {
                 return res.status(403).send({
                     accessToken: null,
                     message: "User password is not set up !"
-                })
+                });
             }
 
             const validPassword = bcrypt.compareSync(
                 req.body.password,
                 data.rows[0].password
-            )
+            );
 
             if (!validPassword) {
                 return res.status(401).send({
                     accessToken: null,
                     message: "Invalid password!"
-                })
+                });
             }
 
             const token = jwt.sign({ email : data.rows[0].email }, config.secret, {
                 expiresIn: 86400 // 24 hours
-            })
+            });
 
             res.status(200).send({
                 accessToken: token
-            })
+            });
         } else {
             res.status(404).send({
                 message: "User not found."
-            })
+            });
         }
-    })
+    });
 }
 
+/**
+ * HTTP request: if the given email is valid, sends an email to the user to recover their account
+ * @param {Request} req Request of the user
+ * @param {Result} res Response to send to the user
+ */
 function forgotPassword(req, res) {
-    const { email } = req.body
+    const { email } = req.body;
 
     const promise = userModel.get_user(email);
     promise.then(() => {
-        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }) // 15 minutes token
+        const token = jwt.sign({ email : email }, config.secret2, { expiresIn: 900 }); // 15 minutes token
         
         userModel.get_user(email).then((value) => {
             sendMail({
@@ -61,28 +71,33 @@ function forgotPassword(req, res) {
 
             res.status(201).send({
                 message: `Mail has been sent to change password.`
-            })
+            });
         })
     }).catch((err) => {
-        console.error(err.message)
+        console.error(err.message);
         res.status(404).send({
             message: `This email does not correspond to an account in our services.`
-        })
+        });
     });
 }
 
+/**
+ * Checks if the given request correspond to the expected parameters needed for the given function
+ * @param {string} method name of the called function
+ * @returns validation chain for the current request
+ */
 const validate = (method) => {
     switch (method) {
         case 'signin': {
             return [
                 body('email', `Email is not conform.`).escape().exists().isEmail(),
                 body('password', `Password is not conform.`).escape().exists()
-            ]
+            ];
         }
         case 'forgotPassword': {
             return [
                 body('email', `Email is not conform.`).escape().exists().isEmail()
-            ]
+            ];
         }
     }
 }
@@ -91,4 +106,4 @@ module.exports = {
     signin,
     forgotPassword,
     validate
-}
+};

@@ -1,24 +1,6 @@
-const bcrypt = require('bcryptjs')
-const nodemailer = require('nodemailer')
-require('dotenv').config()
-
-/**
- * Function that reduces a json with one of its columns
- * @param {JSON} json json we want to reduce
- * @param {number} column key column to reduce
- * @returns reduced json
- */
-function reduceJson(json, column) {
-    const jsonReduced = json.reduce((acc, content) => {
-        const line = content[column];
-        if (!acc[line]) {
-            acc[line] = [];
-        }
-        acc[line].push(content);
-        return acc;
-    }, {});
-    return jsonReduced
-}
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 /**
  * Password hash
@@ -35,6 +17,23 @@ function hashPassword(password) {
     });
 }
 
+/**
+ * @returns {string} current date and time in the format "YYYY-MM-DD HH:MM:SS"
+ */
+const giveCurrentDateTime = () => {
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date + ' ' + time;
+    return dateTime;
+}
+
+/**
+ * Function to send an email
+ * @param {{string}} to Target of the email
+ * @param {{string}} subject Subject of the email
+ * @param {{string}} text Content of the email
+ */
 const sendMail = async({to, subject, text}) =>{
     try {
         let mailOptions = ({
@@ -43,7 +42,7 @@ const sendMail = async({to, subject, text}) =>{
             to,
             subject,
             text
-        })
+        });
         
         const Transporter = nodemailer.createTransport({
             service: "gmail",
@@ -53,14 +52,14 @@ const sendMail = async({to, subject, text}) =>{
             },
         });
         
-        return await Transporter.sendMail(mailOptions) 
+        return await Transporter.sendMail(mailOptions);
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
 module.exports = {
-    reduceJson,
     hashPassword,
+    giveCurrentDateTime,
     sendMail
 }
