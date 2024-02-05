@@ -7,10 +7,10 @@ const { param, body } = require('express-validator');
  * @param {Result} res Response to send to the user
  */
 function postFile(req, res) {
-    const { title, fileurl, extensionid } = req;
+    const { title, size, creationdate, fileurl, extensionid } = req;
     const { description, typeid, creator, externalid } = req.body
 
-    const promise = model.create_file(title, description, fileurl, extensionid, typeid, creator, externalid);
+    const promise = model.create_file(title, description, size, creationdate, fileurl, extensionid, typeid, creator, externalid);
     promise.then((values) => {
         res.status(201).send(values)
     }).catch((err) => {
