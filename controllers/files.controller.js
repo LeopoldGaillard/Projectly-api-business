@@ -109,7 +109,7 @@ const validate = (method) => {
                 body('description', `Missing description.`).escape().exists(),
                 body('typeid', `Invalid type id.`).escape().exists().isNumeric(),
                 body('creator', `Missing creator.`).escape().exists(),
-                body('externalid', `Invalid external id.`).escape().exists().isNumeric()
+                body('externalid', `Invalid external id.`).escape().exists()
             ]
         }
         case 'getFile': {

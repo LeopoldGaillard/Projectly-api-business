@@ -38,7 +38,7 @@ create table if not exists Files (
     file_ext_id integer NOT NULL,
     data_type_id integer NOT NULL,
     creator_name varchar(320) NOT NULL,
-    external_id integer unique NOT NULL,
+    external_id varchar(100) unique NOT NULL,
 
     primary key (file_id),
 
@@ -48,5 +48,6 @@ create table if not exists Files (
 
     constraint nonempty_title check (char_length(coalesce(title, '')) > 0),
     constraint nonempty_file_desc check (char_length(coalesce(file_desc, '')) > 0),
-    constraint nonempty_file_url check (char_length(coalesce(file_url, '')) > 0)
+    constraint nonempty_file_url check (char_length(coalesce(file_url, '')) > 0),
+    constraint nonempty_external_id check (char_length(coalesce(external_id, '')) > 0)
 );

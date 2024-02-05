@@ -593,7 +593,7 @@ For 409 error the response should contain:
     description: string, // Max 300 characters
     typeid: number, // Has to be found in the database
     creator: string, // Has to fit following format: [name]@[domain].[extension] and has to be found in the database
-    externalid: number
+    externalid: string
 }
 ```
 
