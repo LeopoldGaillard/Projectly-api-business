@@ -11,12 +11,12 @@ const { db } = require("../config/db");
  * @param {number} externalId
  * @returns {Promise<QueryResult<any>>} Promise: result of the sql query
  */
-function create_file(title, description, url, extensionId, typeId, creatorName, externalId) {
+function create_file(title, description, size, timestamp, url, extensionId, typeId, creatorName, externalId) {
     return new Promise((resolve, reject) => {
-        var values = [title, description, url, extensionId, typeId, creatorName, externalId];
+        var values = [title, description, size, timestamp, url, extensionId, typeId, creatorName, externalId];
         const sql = "INSERT INTO Files \
-                    (title, file_desc, file_url, file_ext_id, data_type_id, creator_name, external_id) \
-                    VALUES ($1, $2, $3, $4, $5, $6, $7)"
+                    (title, file_desc, file_size, creation_timestamp, file_url, file_ext_id, data_type_id, creator_name, external_id) \
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
         db.query(sql, values, (err, result) => {
             if (err) {
                 reject(err);

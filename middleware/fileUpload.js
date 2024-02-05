@@ -44,6 +44,8 @@ const uploadFileToStorage = async (req, res, next) => {
 
         console.log('File successfully uploaded.');
         req.title = req.file.originalname;
+        req.size = req.file.size;
+        req.creationdate = Date.now();
         req.fileurl = downloadURL;
         req.extensionid = fileExtID;
         next();
